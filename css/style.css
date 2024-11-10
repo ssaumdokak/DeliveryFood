@@ -44,16 +44,6 @@ button {
     flex: 0.8;
 }
 
-.input-error {
-    border: 2px solid red;
-    outline: 3px solid #ff5e5e;
-}
-
-.label-auth input {
-    border-radius: 10px;
-    height: 35px;
-}
-
 .input-address {
     width: 100%;
     background-image: url(../img/icon/home.svg);
@@ -848,3 +838,4 @@ button {
         margin-right: 0;
     }
 }
+ 
