@@ -12,15 +12,28 @@ button {
     cursor: pointer;
     color: inherit;
 }
-
+.required{
+    border: 3px solid red
+}
 .hide {
     display: none;
 }
+#ps{
+    margin: 30px;
+    width: 100%;
+}
 
+.remove-scroll{
+    overflow-y: clip;
+}
 .container {
     max-width: 1200px;
     margin: auto;
 }
+.button-login{
+    width: 100%;
+}
+
 
 .header {
     display: flex;
@@ -556,9 +569,14 @@ button {
 
 .footer-buttons {
     display: flex;
+    width: 100%;
     align-items: center;
 }
 
+
+p{
+    margin: 0 auto;
+}
 .modal-pricetag {
     background: #262626;
     border-radius: 5px;
