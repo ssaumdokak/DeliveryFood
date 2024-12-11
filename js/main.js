@@ -1,237 +1,291 @@
-const modalWindowAuth = document.querySelector('.modal-auth');
-const loginForm = document.getElementById('logInForm');
-const inputLogin = document.getElementById('login');
-const inputPassword = document.getElementById('password');
-const closeModalWindowAuthBtn = document.querySelector('.close-auth');
-const loginButton = document.querySelector('.button-auth');
-const logoutButton = document.querySelector('.button-out');
-const userNameDisplay = document.querySelector('.user-name');
-const list = document.querySelector('.cards-restaurants')
+const authButton = document.querySelector('.button-auth');
+const outButton = document.querySelector('.button-out');
+const userNameSpan = document.getElementById('user-name');
+const modalAuth = document.querySelector('.modal-auth');
+const closeAuthButton = document.querySelector('.close-auth');
+const logInForm = document.getElementById('logInForm');
+const loginInput = document.getElementById('login');
+const passwordInput = document.getElementById('password');
+const buttonLogin = document.querySelector('.button-login');
+const loginErrorText = document.getElementById('login-error');
+const passwordErrorText = document.getElementById('password-error');
+const authErrorText = document.getElementById('auth-error');
 
-function createRestaurantCard(restaurant) {
-    const { name, image, stars, price, kitchen, products, time_of_delivery } = restaurant;
+const cardsRestaurants = document.querySelector('.cards-restaurants');
 
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.products = products;
+const restaurantData = [
+    {
+        image: 'img/pizza-plus/preview.jpg',
+        title: 'Піца плюс',
+        time: '50 хвилин',
+        rating: '4.5',
+        price: 'від 200 &#8372;',
+        category: 'Піца',
+        link: 'restaurant.html'
+    },
+    {
+        image: 'img/tanuki/preview.jpg',
+        title: 'Танукі',
+        time: '60 хвилин',
+        rating: '4.5',
+        price: 'від 1 200 &#8372;',
+        category: 'Суші, роли',
+        link: 'restaurant.html'
+    },
+    {
+        image: 'img/food-band/preview.jpg',
+        title: 'FoodBand',
+        time: '40 хвилин',
+        rating: '4.5',
+        price: 'від 150 &#8372;',
+        category: 'Піца',
+        link: 'restaurant.html'
+    },
+    {
+        image: 'img/palki-skalki/preview.jpg',
+        title: 'Ikigai',
+        time: '55 хвилин',
+        rating: '4.5',
+        price: 'від 250 &#8372;',
+        category: 'Піца',
+        link: 'restaurant.html'
+    },
+    {
+        image: 'img/gusi-lebedi/preview.jpg',
+        title: 'Пузата хата',
+        time: '75 хвилин',
+        rating: '4.5',
+        price: 'від 300 &#8372;',
+        category: 'Українські страви',
+        link: 'restaurant.html'
+    },
+    {
+        image: 'img/pizza-burger/preview.jpg',
+        title: 'PizzaBurger',
+        time: '45 хвилин',
+        rating: '4.5',
+        price: 'від 700 &#8372;',
+        category: 'Піца',
+        link: 'restaurant.html'
+    }
+];
 
-    card.insertAdjacentHTML('beforeend', `
-        <a href="#" class="card-link">
-            <img src="${image}" alt="${name}" class="card-image" />
-            <div class="card-text">
-                <div class="card-heading">
-                    <h3 class="card-title">${name}</h3>
-                    <span class="card-tag tag">${time_of_delivery} хвилин</span>
-                </div>
-                <div class="card-info">
-                    <div class="rating">${stars}</div>
-                    <div class="price">От ${price} ₴</div>
-                    <div class="category">${kitchen}</div>
-                </div>
-            </div>
-        </a>
-    `);
-    return card;
-}
+const sliderWrapper = document.getElementById('slider-wrapper');
+const sliderPrev = document.getElementById('slider-prev');
+const sliderNext = document.getElementById('slider-next');
 
-function createMenuItemCard(item) {
-    const { name, description, price, image } = item;
+let currentSlide = 0;
 
-    const card = document.createElement('div');
-    card.className = 'card';
+function renderSliderCards() {
+  sliderWrapper.innerHTML = ''; 
 
-    card.insertAdjacentHTML('beforeend', `
-        <img src="${image}" alt="${name}" class="card-image" />
+  restaurantData.forEach(({ image, title, time, rating, price, category, link }) => {
+    const slide = document.createElement('div');
+    slide.classList.add('slide');
+
+    slide.innerHTML = `
+      <a class="card" href="${link}">
+        <img src="${image}" alt="${title}" class="card-image" />
         <div class="card-text">
-            <div class="card-heading">
-                <h3 class="card-title card-title-reg">${name}</h3>
-            </div>
-            <div class="card-info">
-                <div class="ingredients">${description}</div>
-            </div>
-            <div class="card-buttons">
-                <button class="button button-primary button-add-cart">
-                    <span class="button-card-text">У кошик</span>
-                </button>
-                <strong class="card-price-bold">${price} ₴</strong>
-            </div>
+          <div class="card-heading">
+            <h3 class="card-title">${title}</h3>
+            <span class="card-tag tag">${time}</span>
+          </div>
+          <div class="card-info">
+            <div class="rating">${rating}</div>
+            <div class="price">${price}</div>
+            <div class="category">${category}</div>
+          </div>
         </div>
-    `);
-    return card;
+      </a>
+    `;
+
+    slide.addEventListener('click', function(event) {
+        const user = getUser();
+        if (!user) {
+            event.preventDefault(); 
+            openAuthModal(); 
+        }
+    });
+
+    sliderWrapper.appendChild(slide);
+  });
+
+  updateSlider();
 }
 
-async function fetchRestaurants() {
-    try {
-        const response = await fetch('./json/partners.json');
-        if (!response.ok) throw new Error('Не вдалося завантажити дані ресторанів');
-        const restaurants = await response.json();
-        list.innerHTML = '';
-        restaurants.forEach(restaurant => {
-            const card = createRestaurantCard(restaurant);
-            list.append(card);
-        });
-    } catch (error) {
-        console.error('Помилка:', error);
-    }
+function updateSlider() {
+  const slides = document.querySelectorAll('.slide');
+  slides.forEach((slide, index) => {
+    slide.style.display = index === currentSlide ? 'block' : 'none';
+  });
 }
 
-async function fetchMenu(menuPath) {
-    try {
-        const response = await fetch(`./json/${menuPath}`);
-        if (!response.ok) throw new Error('Не вдалося завантажити меню');
-        const menu = await response.json();
-        menuList.innerHTML = '';
-        menu.forEach(item => {
-            const card = createMenuItemCard(item);
-            menuList.append(card);
-        });
-    } catch (error) {
-        console.error('Помилка:', error);
-    }
-}
-
-function getQueryParams() {
-    const params = new URLSearchParams(window.location.search);
-    return {
-        name: params.get('name'),
-        menu: params.get('menu'),
-        stars: params.get('stars'),
-        price: params.get('price'),
-        category: params.get('category'),
-    };
-}
-
-async function loadRestaurantMenu() {
-    const restaurantTitle = document.querySelector('.restaurant-title');
-    const rating = document.querySelector('.rating');
-    const price = document.querySelector('.price');
-    const category = document.querySelector('.category');
-    const cardsMenu = document.querySelector('.cards-menu');
-
-    if (!restaurantTitle || !rating || !price || !category || !cardsMenu) {
-        console.warn('Ця функція працює лише на сторінці restaurant.html');
-        return;
-    }
-
-    const { name, menu, stars, price: menuPrice, category: menuCategory } = getQueryParams();
-
-    restaurantTitle.textContent = name;
-    rating.textContent = stars;
-    price.textContent = `От ${menuPrice}`;
-    category.textContent = menuCategory;
-
-    try {
-        const response = await fetch(`./json/${menu}`);
-        if (!response.ok) throw new Error('Не вдалося завантажити меню');
-        const menuItems = await response.json();
-
-        cardsMenu.innerHTML = '';
-        menuItems.forEach((item) => {
-            const menuCard = createMenuItemCard(item);
-            cardsMenu.append(menuCard);
-        });
-    } catch (error) {
-        console.error('Помилка при завантаженні меню:', error);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', loadRestaurantMenu)
-
-list.addEventListener('click', (event) => {
-    const card = event.target.closest('.card');
-    
-    if (card) {
-        const menuPath = card.dataset.products;
-        const restaurantName = card.querySelector('.card-title').textContent;
-        const stars = card.querySelector('.rating').textContent;
-        const price = card.querySelector('.price').textContent;
-        const category = card.querySelector('.category').textContent;
-
-        window.location.href = `restaurant.html?name=${restaurantName}&menu=${menuPath}&stars=${stars}&price=${price}&category=${category}`;
-    }
+sliderPrev.addEventListener('click', () => {
+  currentSlide = (currentSlide - 1 + restaurantData.length) % restaurantData.length;
+  updateSlider();
 });
 
-fetchRestaurants();
+sliderNext.addEventListener('click', () => {
+  currentSlide = (currentSlide + 1) % restaurantData.length;
+  updateSlider();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderSliderCards();
+});
+
+function saveUser(user) {
+    localStorage.setItem('user', JSON.stringify(user));
+}
+
+function getUser() {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+}
+
+function removeUser() {
+    localStorage.removeItem('user');
+}
+
+function updateUI(user) {
+    if (user) {
+        userNameSpan.textContent = `Привіт, ${user.login}`;
+        userNameSpan.style.display = 'inline';
+        authButton.style.display = 'none';
+        outButton.style.display = 'inline-block'; 
+    } else {
+        userNameSpan.textContent = '';
+        userNameSpan.style.display = 'none';
+        authButton.style.display = 'inline-block';
+        outButton.style.display = 'none';  
+    }
+}
 
 function openAuthModal() {
-    modalWindowAuth.style.display = 'flex';
-    inputLogin.value = '';
-    inputPassword.value = '';
-    inputLogin.classList.remove('input-error');
-    inputPassword.classList.remove('input-error');
-    document.body.style.overflow = 'hidden';
+    modalAuth.style.display = 'block';
+    document.body.style.overflow = 'hidden'; 
 }
 
 function closeAuthModal() {
-    modalWindowAuth.style.display = 'none';
-    document.body.style.overflow = '';
+    modalAuth.style.display = 'none';
+    document.body.style.overflow = ''; 
+    resetForm();
 }
 
-function loginUser(login) {
-    localStorage.setItem('user', login);
-    loginButton.style.display = 'none';
-    logoutButton.style.display = 'block';
-    userNameDisplay.textContent = login;
-    userNameDisplay.style.display = 'block';
-    closeAuthModal();
+function updateButtonState() {
+    const isLoginFilled = loginInput.value.trim() !== '';
+    const isPasswordFilled = passwordInput.value.trim() !== '';
+    
+    loginErrorText.style.display = isLoginFilled ? 'none' : 'block';
+    passwordErrorText.style.display = isPasswordFilled ? 'none' : 'block';
+    
+    if (!isLoginFilled) {
+        loginInput.classList.add('input-error');
+    } else {
+        loginInput.classList.remove('input-error');
+    }
+    
+    if (!isPasswordFilled) {
+        passwordInput.classList.add('input-error');
+    } else {
+        passwordInput.classList.remove('input-error');
+    }
+    
+    buttonLogin.disabled = !(isLoginFilled && isPasswordFilled);
+    
+    authErrorText.style.display = 'none';
 }
 
-function logoutUser() {
-    localStorage.removeItem('user');
-    loginButton.style.display = 'block';
-    logoutButton.style.display = 'none';
-    userNameDisplay.textContent = '';
+function resetForm() {
+    loginInput.value = '';
+    passwordInput.value = '';
+    loginErrorText.style.display = 'none';
+    passwordErrorText.style.display = 'none';
+    authErrorText.style.display = 'none';
+    buttonLogin.disabled = true;
+    loginInput.classList.remove('input-error');
+    passwordInput.classList.remove('input-error');
 }
 
-window.addEventListener('load', () => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-        loginUser(savedUser);
+function renderRestaurants() {
+    cardsRestaurants.innerHTML = '';
+
+    restaurantData.forEach(restaurant => {
+        const { image, title, time, rating, price, category, link } = restaurant;
+
+        const a = document.createElement('a');
+        a.href = link;
+        a.classList.add('card', 'card-restaurant');
+
+        a.innerHTML = `
+            <img src="${image}" alt="${title}" class="card-image" />
+            <div class="card-text">
+                <div class="card-heading">
+                    <h3 class="card-title">${title}</h3>
+                    <span class="card-tag tag">${time}</span>
+                </div>
+                <div class="card-info">
+                    <div class="rating">${rating}</div>
+                    <div class="price">${price}</div>
+                    <div class="category">${category}</div>
+                </div>
+            </div>
+        `;
+
+        a.addEventListener('click', function(event) {
+            const user = getUser();
+            if (!user) {
+                event.preventDefault(); 
+                openAuthModal(); 
+            }
+        });
+
+        cardsRestaurants.appendChild(a);
+    });
+}
+
+logInForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const login = loginInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (login === 'Artem' && password === '12345') {
+        const user = { login };
+        saveUser(user);
+        updateUI(user);  
+        closeAuthModal(); 
+        resetForm();
+    } else {
+        authErrorText.style.display = 'block';
     }
 });
 
-loginButton.addEventListener('click', openAuthModal);
+loginInput.addEventListener('input', updateButtonState);
+passwordInput.addEventListener('input', updateButtonState);
 
-logoutButton.addEventListener('click', logoutUser);
+authButton.addEventListener('click', openAuthModal);
 
-closeModalWindowAuthBtn.addEventListener('click', closeAuthModal);
+closeAuthButton.addEventListener('click', closeAuthModal);
 
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const login = inputLogin.value.trim();
-    const password = inputPassword.value.trim();
-
-    let hasError = false;
-
-    if (!login) {
-        inputLogin.classList.add('input-error');
-        hasError = true;
-    } else {
-        inputLogin.classList.remove('input-error');
-    }
-    if (!password) {
-        inputPassword.classList.add('input-error');
-        hasError = true;
-    } else {
-        inputPassword.classList.remove('input-error');
-    }
-
-    if (!hasError) {
-        loginUser(login);
-    }
-});
-
-modalWindowAuth.addEventListener('click', (e) => {
-    if (e.target === modalWindowAuth) {
+modalAuth.addEventListener('click', function(event) {
+    if (event.target === modalAuth) {
         closeAuthModal();
     }
 });
 
-list.addEventListener('click', (event) => {
-    const cardLink = event.target.closest('.card-link');
+outButton.addEventListener('click', function () {
+    removeUser();
+    updateUI(null);
+    closeAuthModal();
+    resetForm(); 
+});
 
-    if (cardLink && !localStorage.getItem('user')) {
-        event.preventDefault();
-        openAuthModal();
-    }
+document.addEventListener('DOMContentLoaded', function () {
+    const user = getUser();
+    updateUI(user);
+    resetForm(); 
+
+    renderRestaurants();
 });
