@@ -2,6 +2,39 @@
     box-sizing: border-box;
 }
 
+.input-error {
+    border: 1px solid red;
+}
+
+.slider-button {
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: white; 
+    border: none; 
+    border-radius: 50%; 
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: absolute; 
+    top: 90%; 
+    transform: translateY(-50%); 
+    z-index: 10; 
+  }
+
+  .slider-button-prev {
+    left: 10px;
+  }
+
+  .slider-button-next {
+    right: 10px; 
+  }
+
+  .slider-button:hover {
+    background-color: rgba(0, 0, 0, 0.8); 
+  }
+
 body {
     font-family: "Roboto", sans-serif;
     padding-top: 44px;
@@ -11,7 +44,6 @@ a,
 button {
     cursor: pointer;
     color: inherit;
-    text-decoration: none;
 }
 
 .hide {
@@ -43,16 +75,6 @@ button {
 
 .address {
     flex: 0.8;
-}
-
-.input-error {
-    border: 2px solid red;
-    outline: 3px solid #ff5e5e;
-}
-
-.label-auth input {
-    border-radius: 10px;
-    height: 35px;
 }
 
 .input-address {
@@ -89,22 +111,38 @@ button {
     line-height: 24px;
 }
 
-.button:hover {
-    background: #1890ff;
-    border: 1px solid #1890ff;
+.button-login:hover:not([disabled]) {
+    background: #32ff9f;
+    border: 1px solid #a3ffc1;
     color: #fff;
 }
-
-
+.button-login:disabled {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.0015);
+    border-radius: 2px;
+    color: #595959;
+    font-size: 16px;
+    line-height: 24px;
+}
+.button-login:hover:disabled {
+    background: #3effb5;
+    border: 1px solid #d9d9d9;
+    color: #595959;
+}
 .button-primary {
-    background: #1890ff;
-    border: 1px solid #1890ff;
+    background: #32ff9f;
+    border: 1px solid #a3ffc1;
     color: #fff;
     margin-right: 10px;
 }
 
 .button-primary:hover {
-    background: #ffffff;
+    background: #2cfff4;
     border: 1px solid #d9d9d9;
     color: #595959;
 }
@@ -183,11 +221,11 @@ button {
     box-shadow: 0 7px 12px rgba(158, 158, 163, 0.1);
     border-radius: 10px;
     padding: 68px 70px;
-    height: 416px;
+    margin-bottom: 56px;
 }
 
 .pizza {
-    background: #fff1b8 url(../img/promo/pizza.png) no-repeat top -100px right -250px / 830px;
+    background: #fff1b8 url(../img/promo/pizza.png) no-repeat top -100px right -250px / 830px
 }
 
 .kebab {
@@ -195,11 +233,11 @@ button {
 }
 
 .vegetables {
-    background: #FFF566 url(../img/promo/vegetables.png) no-repeat top 0 right 0 / 950px;
+    background: #FFF566 url(../img/promo/vegetables.png) no-repeat top 0 right 0 / 825px
 }
 
 .sushi {
-    background: #FFF1F0 url(../img/promo/sushi.png) no-repeat top 10px right 15px / 500px;
+    background: #FFF1F0 url(../img/promo/sushi.png) no-repeat top 10px right 15px / 500px
 }
 
 .promo-title {
@@ -241,7 +279,7 @@ button {
 .cards {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -436,6 +474,21 @@ button {
     display: none;
     z-index: 999;
 }
+.button-out {
+    display: none;
+}
+.error-text {
+    color: red;
+    font-size: 16px;
+    margin-top: 5px;
+}
+.footer-text{
+    display: flex;
+    justify-content: flex-start;
+}
+input.invalid {
+    border-color: red;
+}
 
 .is-open {
     display: flex;
@@ -561,9 +614,7 @@ button {
     justify-content: space-between;
 }
 
-.modal-auth .modal-footer {
-    justify-content: flex-end;
-}
+
 
 .footer-buttons {
     display: flex;
@@ -577,10 +628,6 @@ button {
     padding: 15px 20px;
     font-size: 20px;
     line-height: 23px;
-}
-
-.swiper {
-    margin-bottom: 50px;
 }
 
 @media (max-width: 1366px) {
