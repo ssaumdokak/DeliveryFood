@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html lang="uk">
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+	/>
 	<title>Delivery Food — доставка їжі додому</title>
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap&subset=cyrillic" rel="stylesheet" />
 	<link rel="stylesheet" href="css/normalize.css" />
 	<link rel="stylesheet" href="css/style.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
-	<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  
+	<script src="./js/main.js" type="module" defer></script>
+	<script src="./js/swiper.js" type="module" defer></script>
 </head>
-
 <body>
 	<div class="container">
 		<header class="header">
@@ -39,43 +42,42 @@
 			</div>
 		</header>
 	</div>
-	
+
 	<main class="main">
 		<div class="container">
-			<section class="container-promo">
-				<div class="swiper">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide promo pizza">
-							<h1 class="promo-title">Онлайн-сервіс <br />доставки їжі додому</h1>
-							<p class="promo-text">
-								Страви з улюбленого ресторану привезе кур'єр
-							</p>
-						</div>
-						<div class="swiper-slide promo kebab">
-							<h1 class="promo-title">Шашлики <br />зі знижкою 35%</h1>
-							<p class="promo-text">
-								Замовляйте шашлики до 24 серпня зі знижкою за промокодом VIVAT
-							</p>
-						</div>
-						<div class="swiper-slide promo vegetables">
-							<h1 class="promo-title">Знижка 20% на всю їжу <br />за промокодом LOVE.JS</h1>
-							<p class="promo-text">
-								Замовлення з подарунковими книгами по фронтенду
-							</p>
-						</div>
-						<div class="swiper-slide promo sushi">
-							<h1 class="promo-title">Сети зі знижкою до 30% <br />у ресторанах</h1>
-							<p class="promo-text">
-								Скористайтеся промокодом DADADA до 1 вересня
-							</p>
-						</div>
-					</div>
-					<div class="swiper-pagination"></div>
-					<div class="swiper-button-prev"></div>
-					<div class="swiper-button-next"></div>
+			<section class="container-promo swiper">
+				<div class="swiper-wrapper">
+				  <section class="swiper-slide promo pizza">
+					<h1 class="promo-title">Онлайн-сервіс <br />доставки їжі додому</h1>
+					<p class="promo-text">
+					  Страви з улюбленого ресторану привезе кур'єр
+					</p>
+				  </section>
+				  <section class="swiper-slide promo kebab">
+					<h1 class="promo-title">Шашлики <br> зі знижкою 35%</h1>
+					<p class="promo-text">
+					  Закажіть шашлики у будь-якому ресторані до 24 серпня та отримайте знижку за промокодом VIVAT
+					</p>
+				  </section>
+				  <section class="swiper-slide promo vegetables">
+					<h1 class="promo-title">Знижка 20% на всю іжу <br> за промокодом LOVE.JS</h1>
+					<p class="promo-text">
+					  Страву з ресторану привезуть разом із двома подарунковими книгами по фронтенду
+					</p>
+				  </section>
+				  <section class="swiper-slide promo sushi">
+					<h1 class="promo-title">Сети зі знижкою до 30% <br> у ресторанах</h1>
+					<p class="promo-text">
+					  Знижки на сети до 1 вересня за промокодом DADADA
+					</p>
+				  </section>
 				</div>
+				
+				<div class="swiper-button-next"></div>
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-pagination"></div>
 			</section>
-
+			  
 			<section class="restaurants">
 				<div class="section-heading">
 					<h2 class="section-title">Ресторани</h2>
@@ -84,9 +86,13 @@
 					</label>
 				</div>
 				<div class="cards cards-restaurants">
+					
 				</div>
+				<!-- /.cards -->
 			</section>
 		</div>
+		<!-- /.container -->
+
 	</main>
 
 	<footer class="footer">
@@ -103,7 +109,9 @@
 					<a href="#" class="social-link"><img src="img/social/instagram.svg" alt="instagram" /></a>
 					<a href="#" class="social-link"><img src="img/social/fb.svg" alt="facebook" /></a>
 				</div>
+				<!-- /.social-links -->
 			</div>
+			<!-- /.footer-block -->
 		</div>
 	</footer>
 
@@ -113,6 +121,7 @@
 				<h3 class="modal-title">Кошик</h3>
 				<button class="close">&times;</button>
 			</div>
+			<!-- /.modal-header -->
 			<div class="modal-body">
 				<div class="food-row">
 					<span class="food-name">Рол вугор стандарт</span>
@@ -123,6 +132,7 @@
 						<button class="counter-button">+</button>
 					</div>
 				</div>
+				<!-- /.foods-row -->
 				<div class="food-row">
 					<span class="food-name">Рол вугор стандарт</span>
 					<strong class="food-price">250 ₴</strong>
@@ -132,6 +142,7 @@
 						<button class="counter-button">+</button>
 					</div>
 				</div>
+				<!-- /.foods-row -->
 				<div class="food-row">
 					<span class="food-name">Рол вугор стандарт</span>
 					<strong class="food-price">250 ₴</strong>
@@ -141,7 +152,19 @@
 						<button class="counter-button">+</button>
 					</div>
 				</div>
+				<!-- /.foods-row -->
+				<div class="food-row">
+					<span class="food-name">Рол вугор стандарт</span>
+					<strong class="food-price">250 ₴</strong>
+					<div class="food-counter">
+						<button class="counter-button">-</button>
+						<span class="counter">1</span>
+						<button class="counter-button">+</button>
+					</div>
+				</div>
+				<!-- /.foods-row -->
 			</div>
+			<!-- /.modal-body -->
 			<div class="modal-footer">
 				<span class="modal-pricetag">1250 ₴</span>
 				<div class="footer-buttons">
@@ -149,7 +172,9 @@
 					<button class="button clear-cart">Скасувати</button>
 				</div>
 			</div>
+			<!-- /.modal-footer -->
 		</div>
+		<!-- /.modal-dialog -->
 	</div>
 
 	<div class="modal-auth">
@@ -166,16 +191,19 @@
 						<span>Пароль</span>
 						<input id="password" type="password">
 					</label>
+					<span id="ps" class="hide">Будь ласка, ведіть свій логін та пароль</span>
 				</fieldset>
+				<!-- /.modal-body -->
 				<div class="modal-footer">
 					<div class="footer-buttons">
-						<button class="button button-primary button-login" type="submit">Війти</button>
+						<button class="button button-primary button-login" type="submit"><p>Війти</p></button>
 					</div>
 				</div>
 			</form>
+			<!-- /.modal-footer -->
 		</div>
+		<!-- /.modal-dialog -->
 	</div>
-
 </body>
 
 </html>
