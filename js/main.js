@@ -96,7 +96,7 @@ logInForm.addEventListener("submit", function (event) {
     const login = loginInput.value.trim();
     const password = passwordInput.value.trim();
 
-    if (login === "test" && password === "123") {
+    if (login === "dao" && password === "123") {
         const user = { login };
         saveUser(user);
         updateUI(user);
