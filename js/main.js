@@ -1,18 +1,25 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyCQgmhD9kzK6queH-vL8s-cuuIcAPs9tgg",
-    authDomain: "deliv-626be.firebaseapp.com",
-    projectId: "deliv-626be",
-    storageBucket: "deliv-626be.firebasestorage.app",
-    messagingSenderId: "3561004190",
-    appId: "1:3561004190:web:8b456225367bdfae66ef8f"
-  };
+  apiKey: "AIzaSyD10TyVJNVHqdzexlp5iE5h7U5wdpYyHkM",
+  authDomain: "deliveryfood-a52f5.firebaseapp.com",
+  databaseURL: "https://deliveryfood-a52f5-default-rtdb.firebaseio.com",
+  projectId: "deliveryfood-a52f5",
+  storageBucket: "deliveryfood-a52f5.firebasestorage.app",
+  messagingSenderId: "73845925709",
+  appId: "1:73845925709:web:30d71983f0f73e45527904",
+  measurementId: "G-NCMLL1CNWG"
+};
 
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const analytics = getAnalytics(app);
 
 console.log(app);
 
