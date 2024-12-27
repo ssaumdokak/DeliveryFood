@@ -1,20 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCQgmhD9kzK6queH-vL8s-cuuIcAPs9tgg",
-    authDomain: "deliv-626be.firebaseapp.com",
-    projectId: "deliv-626be",
-    storageBucket: "deliv-626be.firebasestorage.app",
-    messagingSenderId: "3561004190",
-    appId: "1:3561004190:web:8b456225367bdfae66ef8f"
-  };
-
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-console.log(app);
 
 const authButton = document.querySelector(".button-auth");
 const outButton = document.querySelector(".button-out");
